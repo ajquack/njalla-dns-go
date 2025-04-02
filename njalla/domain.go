@@ -11,6 +11,16 @@ type DomainClient struct {
 	client *Client
 }
 
+// GetDomain retrieves information about a specific domain using the provided domain parameters.
+// It sends a request to the Njalla API with the "get-domain" method and returns the response.
+//
+// Parameters:
+//   - ctx: The context for the request, used for cancellation and deadlines.
+//   - domainParams: The parameters required to identify the domain.
+//
+// Returns:
+//   - A pointer to a GetDomainRequestResponse struct containing the domain information.
+//   - An error if the request fails or the response cannot be processed.
 func (c *DomainClient) GetDomain(ctx context.Context, domainParams schema.GetDomainParams) (*schema.GetDomainRequestResponse, error) {
 	const method string = "get-domain"
 	var responseScheme schema.GetDomainRequestResponse
@@ -31,6 +41,15 @@ func (c *DomainClient) GetDomain(ctx context.Context, domainParams schema.GetDom
 	return response, nil
 }
 
+// ListDomains retrieves a list of domains associated with the account.
+// It sends a request to the "list-domains" API endpoint and parses the response.
+//
+// Parameters:
+//   - ctx: The context for the request, which can be used to control timeouts or cancellations.
+//
+// Returns:
+//   - A slice of schema.ListDomainResponse containing the domain details.
+//   - An error if the request fails or the response cannot be parsed.
 func (c *DomainClient) ListDomains(ctx context.Context) ([]schema.ListDomainResponse, error) {
 	const method string = "list-domains"
 	var responseScheme schema.ListDomainsRequestResponse
@@ -50,6 +69,24 @@ func (c *DomainClient) ListDomains(ctx context.Context) ([]schema.ListDomainResp
 	return response.Domains, nil
 }
 
+// EditDomain updates the settings of an existing domain.
+//
+// This method allows you to modify the mail forwarding, DNSSEC, and lock
+// settings of a specified domain. It first checks if the domain exists
+// by retrieving the list of existing domains. If the domain does not exist,
+// an error is returned.
+//
+// Parameters:
+//   - ctx: The context for the request, used for cancellation and deadlines.
+//   - domain: The name of the domain to be updated.
+//   - mailForwarding: A boolean indicating whether mail forwarding should be enabled.
+//   - dnssec: A boolean indicating whether DNSSEC should be enabled.
+//   - lock: A boolean indicating whether the domain should be locked.
+//
+// Returns:
+//   - A pointer to a schema.UpdateDomainRequestResponse containing the updated
+//     domain information if the operation is successful.
+//   - An error if the domain does not exist or if the update operation fails.
 func (c *DomainClient) EditDomain(ctx context.Context, domain string, mailForwarding bool, dnssec bool, lock bool) (*schema.UpdateDomainRequestResponse, error) {
 	const method string = "edit-domain"
 	var responseScheme schema.UpdateDomainRequestResponse

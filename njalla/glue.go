@@ -11,6 +11,18 @@ type GlueClient struct {
 	client *Client
 }
 
+// ListGlue retrieves a list of glue records for the specified domain.
+// It sends a request to the API with the provided domain name and returns
+// a slice of GlueResponse objects or an error if the operation fails.
+//
+// Parameters:
+//   - ctx: The context for the request, used for cancellation and timeouts.
+//   - domain: The domain name for which to retrieve glue records.
+//
+// Returns:
+//   - ([]schema.GlueResponse): A slice of GlueResponse objects containing
+//     the glue records for the specified domain.
+//   - (error): An error if the request fails or the response cannot be processed.
 func (c *GlueClient) ListGlue(ctx context.Context, domain string) ([]schema.GlueResponse, error) {
 	const method string = "list-glue"
 	var responseScheme schema.GlueListRequestResponse
@@ -33,6 +45,21 @@ func (c *GlueClient) ListGlue(ctx context.Context, domain string) ([]schema.Glue
 	return response.Glue, nil
 }
 
+// CreateGlue creates a new glue record for the specified domain.
+// It first checks if a glue record with the same name already exists
+// for the domain by calling the ListGlue method. If a duplicate is found,
+// an error is returned.
+//
+// Parameters:
+//   - ctx: The context for the request, used for cancellation and deadlines.
+//   - glueParams: The parameters for the glue record, including the domain
+//     and the glue name.
+//
+// Returns:
+//   - A pointer to a GlueCreateRequestResponse containing the response data
+//     from the glue creation request.
+//   - An error if the glue record already exists or if there is an issue
+//     with the request or response processing.
 func (c *GlueClient) CreateGlue(ctx context.Context, glueParams schema.GlueParams) (*schema.GlueCreateRequestResponse, error) {
 	const method string = "add-glue"
 	var responseScheme schema.GlueCreateRequestResponse
@@ -63,6 +90,18 @@ func (c *GlueClient) CreateGlue(ctx context.Context, glueParams schema.GlueParam
 	return response, nil
 }
 
+// UpdateGlue updates an existing glue record for a given domain.
+// It first checks if the glue record exists by listing all glue records for the domain.
+// If the record does not exist, it returns an error.
+// If the record exists, it sends a request to update the glue record with the provided parameters.
+//
+// Parameters:
+//   - ctx: The context for the request, used for cancellation and deadlines.
+//   - glueParams: The parameters for the glue record to be updated, including domain and record details.
+//
+// Returns:
+//   - A pointer to a GlueUpdateRequestResponse containing the response from the update operation.
+//   - An error if the operation fails or the glue record does not exist.
 func (c *GlueClient) UpdateGlue(ctx context.Context, glueParams schema.GlueParams) (*schema.GlueUpdateRequestResponse, error) {
 	const method string = "edit-glue"
 	var responseScheme schema.GlueUpdateRequestResponse
@@ -104,6 +143,22 @@ func (c *GlueClient) UpdateGlue(ctx context.Context, glueParams schema.GlueParam
 	return response, nil
 }
 
+// DeleteGlue deletes a glue record for a given domain and name.
+// It first checks if the glue record exists by listing all glue records for the specified domain.
+// If the record does not exist, it returns an error.
+// If the record exists, it sends a request to remove the glue record.
+//
+// Parameters:
+//   - ctx: The context for the request, used for cancellation and deadlines.
+//   - glueParams: The parameters required to identify the glue record to delete, including the domain and name.
+//
+// Returns:
+//   - A pointer to a GlueDeleteRequestResponse containing the response from the server.
+//   - An error if the glue record does not exist or if there is an issue with the request.
+//
+// Errors:
+//   - Returns an error if the glue record with the specified name does not exist.
+//   - Returns an error if there is an issue creating or sending the request.
 func (c *GlueClient) DeleteGlue(ctx context.Context, glueParams schema.GlueDeleteParams) (*schema.GlueDeleteRequestResponse, error) {
 	const method string = "remove-glue"
 	var responseScheme schema.GlueDeleteRequestResponse
