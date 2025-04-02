@@ -1,17 +1,10 @@
 package schema
 
-type UdpateDomainParams struct {
-	Domain         string   `json:"domain"`
-	MailForwarding bool     `json:"mailforwarding"`
-	DNSSEC         bool     `json:"dnssec"`
-	Lock           bool     `json:"lock"`
-	Nameservers    []string `json:"nameservers"`
-}
-
-type FindDomainResponse struct {
-	Price  int    `json:"price"`
-	Status string `json:"status"`
-	Name   string `json:"name"`
+type UpdateDomainParams struct {
+	Domain         string `json:"domain"`
+	MailForwarding bool   `json:"mailforwarding"`
+	DNSSEC         bool   `json:"dnssec"`
+	Lock           bool   `json:"lock"`
 }
 
 type FindDomainParams struct {
@@ -22,16 +15,12 @@ type GetDomainParams struct {
 	Domain string `json:"domain"`
 }
 
-type UpdateDomainRequest struct {
-	Method string             `json:"method"`
-	Params UdpateDomainParams `json:"params"`
+type ListDomainParams struct {
 }
 
-type ListDomainResponse struct {
-	Name      string `json:"name"`
-	Status    string `json:"status"`
-	Expiry    string `json:"expiry"`
-	Autorenew bool   `json:"autorenew"`
+type UpdateDomainRequest struct {
+	Method string             `json:"method"`
+	Params UpdateDomainParams `json:"params"`
 }
 
 type UpdateDomainRequestResponse struct {
@@ -55,6 +44,12 @@ type FindDomainRequestResponse struct {
 	Domains []FindDomainResponse `json:"domains"`
 }
 
+type FindDomainResponse struct {
+	Price  int    `json:"price"`
+	Status string `json:"status"`
+	Name   string `json:"name"`
+}
+
 type GetDomainRequest struct {
 	Method string          `json:"method"`
 	Params GetDomainParams `json:"params"`
@@ -67,17 +62,23 @@ type GetDomainRequestResponse struct {
 	Autorenew      bool   `json:"autorenew"`
 	Locked         bool   `json:"locked"`
 	Mailforwarding bool   `json:"mailforwarding"`
-	MaxNameservers int    `json:"maxnameservers"`
+	MaxNameservers int    `json:"max_nameservers"`
 	DNSSECType     string `json:"dnssec_type"`
-	MaxStaticPages int    `json:"maxstaticpages"`
+	MaxStaticPages int    `json:"max_static_pages"`
 }
 
 type ListDomainsRequest struct {
-	Method string `json:"method"`
-	Params struct {
-	} `json:"params"`
+	Method string           `json:"method"`
+	Params ListDomainParams `json:"params"`
 }
 
 type ListDomainsRequestResponse struct {
 	Domains []ListDomainResponse `json:"domains"`
+}
+
+type ListDomainResponse struct {
+	Name      string `json:"name"`
+	Status    string `json:"status"`
+	Expiry    string `json:"expiry"`
+	Autorenew bool   `json:"autorenew"`
 }
