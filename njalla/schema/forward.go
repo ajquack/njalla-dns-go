@@ -5,7 +5,7 @@ type ForwardResponse struct {
 	To   string `json:"to"`
 }
 
-type ForwardCreateParams struct {
+type ForwardParams struct {
 	Domain string `json:"domain"`
 	From   string `json:"from"`
 	To     string `json:"to"`
@@ -15,15 +15,9 @@ type ForwardListParams struct {
 	Domain string `json:"domain"`
 }
 
-type ForwardDeleteParams struct {
-	Domain string `json:"domain"`
-	From   string `json:"from"`
-	To     string `json:"to"`
-}
-
 type ForwardCreateRequest struct {
-	Method string              `json:"method"`
-	Params ForwardCreateParams `json:"params"`
+	Method string        `json:"method"`
+	Params ForwardParams `json:"params"`
 }
 
 type ForwardCreateRequestResponse struct {
@@ -42,8 +36,8 @@ type ForwardListRequestResponse struct {
 }
 
 type ForwardDeleteRequest struct {
-	Method string              `json:"method"`
-	Params ForwardDeleteParams `json:"params"`
+	Method string        `json:"method"`
+	Params ForwardParams `json:"params"`
 }
 
 type ForwardDeleteRequestResponse struct {

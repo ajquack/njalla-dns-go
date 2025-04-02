@@ -22,7 +22,6 @@ type GlueDeleteParams struct {
 	Name   string `json:"name"`
 }
 
-// GlueCreateRequest is the request structure for CRD Operations on Glue records
 type GlueCreateRequest struct {
 	Method string     `json:"method"`
 	Params GlueParams `json:"params"`
